@@ -8,6 +8,7 @@
         ["evyd13/plain60", "oscarcarlsson"],
         ["kbdfans/kbd19x", "oscarcarlsson"],
         ["keebio/iris/rev2", "oscarcarlsson"],
-        ["xiudi/xd75", "oscarcarlsson"]
+        ["xiudi/xd75", "oscarcarlsson"],
+        ["converter/adb_usb/rev1", "oscarcarlsson"]
     ]
 }

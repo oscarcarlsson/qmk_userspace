@@ -2,6 +2,7 @@
     "userspace_version": "1.1",
     "build_targets": [
         ["hhkb/ansi/32u4", "oscarcarlsson"],
-        ["atreus/astar", "oscarcarlsson"]
+        ["atreus/astar", "oscarcarlsson"],
+        ["boardwalk", "oscarcarlsson"]
     ]
 }

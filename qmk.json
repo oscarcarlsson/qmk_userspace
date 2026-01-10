@@ -3,6 +3,7 @@
     "build_targets": [
         ["hhkb/ansi/32u4", "oscarcarlsson"],
         ["atreus/astar", "oscarcarlsson"],
-        ["boardwalk", "oscarcarlsson"]
+        ["boardwalk", "oscarcarlsson"],
+        ["ergodox_ez/base", "oscarcarlsson"]
     ]
 }

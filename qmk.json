@@ -7,6 +7,7 @@
         ["ergodox_ez/base", "oscarcarlsson"],
         ["evyd13/plain60", "oscarcarlsson"],
         ["kbdfans/kbd19x", "oscarcarlsson"],
-        ["keebio/iris/rev2", "oscarcarlsson"]
+        ["keebio/iris/rev2", "oscarcarlsson"],
+        ["xiudi/xd75", "oscarcarlsson"]
     ]
 }

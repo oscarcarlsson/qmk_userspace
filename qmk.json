@@ -4,6 +4,7 @@
         ["hhkb/ansi/32u4", "oscarcarlsson"],
         ["atreus/astar", "oscarcarlsson"],
         ["boardwalk", "oscarcarlsson"],
-        ["ergodox_ez/base", "oscarcarlsson"]
+        ["ergodox_ez/base", "oscarcarlsson"],
+        ["evyd13/plain60", "oscarcarlsson"]
     ]
 }

@@ -6,6 +6,7 @@
         ["boardwalk", "oscarcarlsson"],
         ["ergodox_ez/base", "oscarcarlsson"],
         ["evyd13/plain60", "oscarcarlsson"],
-        ["kbdfans/kbd19x", "oscarcarlsson"]
+        ["kbdfans/kbd19x", "oscarcarlsson"],
+        ["keebio/iris/rev2", "oscarcarlsson"]
     ]
 }

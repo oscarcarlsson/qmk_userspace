@@ -2,6 +2,7 @@
     "userspace_version": "1.1",
     "build_targets": [
         ["hhkb/ansi/32u4", "oscarcarlsson"],
-        ["4pplet/steezy60/rev_b", "oscarcarlsson"]
+        ["4pplet/steezy60/rev_b", "oscarcarlsson"],
+        ["atreus/astar", "oscarcarlsson"]
     ]
 }

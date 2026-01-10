@@ -1,0 +1,8 @@
+DYNAMIC_MACRO_ENABLE = yes
+OS_DETECTION_ENABLE = yes
+DEFERRED_EXEC_ENABLE = yes
+CONSOLE_ENABLE = no
+MOUSE_ENABLE = yes
+
+# Not tested properly
+# DEBOUNCE_TYPE = sym_eager_pk

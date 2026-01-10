@@ -6,6 +6,7 @@
         ["boardwalk", "oscarcarlsson"],
         ["ergodox_ez/base", "oscarcarlsson"],
         ["evyd13/plain60", "oscarcarlsson"],
-        ["gmmk/pro/rev1/iso", "oscarcarlsson"]
+        ["gmmk/pro/rev1/iso", "oscarcarlsson"],
+        ["kbdfans/kbd19x", "oscarcarlsson"]
     ]
 }

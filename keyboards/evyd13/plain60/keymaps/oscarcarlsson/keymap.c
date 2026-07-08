@@ -143,7 +143,7 @@ uint32_t custom_os_settings(uint32_t trigger_time, void *cb_arg) {
 
   if (host == OS_MACOS || host == OS_IOS) {
     keymap_config.swap_lalt_lgui = true;
-    keymap_config.swap_ralt_rgui = true;
+    keymap_config.swap_ralt_rgui = false;
     retry_ms = 0;
   }
 

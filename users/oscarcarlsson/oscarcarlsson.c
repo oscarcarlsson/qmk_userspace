@@ -1,3 +1,10 @@
+#include "oscarcarlsson.h"
+
+__attribute__ ((weak))
+bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
+  return true;
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #ifdef MOUSE_JIGGLER
   if (record->event.pressed) {
@@ -10,7 +17,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       token = INVALID_DEFERRED_TOKEN;
       report = (report_mouse_t){};  // Clear the mouse.
       host_mouse_send(&report);
-    } else if (keycode == CT_JIG) {
+    } else if (keycode == CT_JIGG) {
 
       uint32_t jiggler_callback(uint32_t trigger_time, void* cb_arg) {
         // Deltas to move in a circle of radius 20 pixels over 32 frames.
@@ -61,10 +68,31 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     } else {  // On key release.
       unregister_code(registered_key);
     }
-  } return false;
-
   }
-  return true;
+    break;
+
+  case CT_MAKE: {  // Compiles the firmware, and adds the flash command based on keyboard bootloader
+    if (!record->event.pressed) {
+      uint8_t temp_mod = get_mods();
+      uint8_t temp_osm = get_oneshot_mods();
+      clear_mods(); clear_oneshot_mods();
+      SEND_STRING("make " QMK_KEYBOARD ":" QMK_KEYMAP);
+#ifndef FLASH_BOOTLOADER
+      if ((temp_mod | temp_osm) & MOD_MASK_SHIFT)
+#endif
+        {
+          SEND_STRING(":flash");
+        }
+      if ((temp_mod | temp_osm) & MOD_MASK_CTRL) {
+        SEND_STRING(" -j8 --output-sync");
+      }
+      tap_code(KC_ENT);
+      set_mods(temp_mod);
+    }
+  }
+    break;
+  }
+  return process_record_keymap(keycode, record);
 }
 
 #ifdef(OS_DETECTION)

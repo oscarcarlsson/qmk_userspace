@@ -16,10 +16,6 @@ enum _layer {
 #define ___T___ KC_TRNS
 #define XXXXXXX KC_NO
 
-enum custom_keycodes {
-  CT_JIG = SAFE_RANGE,
-};
-
 #define CT_FSPC LT(_FN, KC_SPC)
 #define CT_FAPP LT(_LW, KC_APP)
 #define CT_BASE DF(_MA)

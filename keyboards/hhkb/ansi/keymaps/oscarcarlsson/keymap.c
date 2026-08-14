@@ -56,10 +56,3 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             	  ___T___, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, SE_LABK, SE_RABK, SE_PIPE, XXXXXXX, ___T___,
                                     ___T___, ___T___, ___T___, ___T___, ___T___),
 };
-
-#if defined(TAP_DANCE_ENABLE)
-tap_dance_action_t tap_dance_actions[] = {
-    // Tap once for Escape, twice for Caps Lock
-    [TD_LSFT_CAPS] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
-};
-#endif

@@ -95,7 +95,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return process_record_keymap(keycode, record);
 }
 
-#ifdef OS_DETECTION
+#if defined(OS_DETECTION_ENABLE)
 uint32_t custom_os_settings(uint32_t trigger_time, void *cb_arg) {
   os_variant_t host = detected_host_os();
   uint16_t retry_ms = 500;

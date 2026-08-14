@@ -6,14 +6,6 @@ enum {
     TD_LSFT_CAPS,
 };
 
-enum custom_keycodes {
-  CT_ODCL = NEW_SAFE_RANGE,
-  CT_ARRC,
-  CT_DIRC,
-  CT_ADQT,
-  CT_DTCL
-};
-
 #define BASE 0
 #define HHKB 1
 #define LOWR 2
@@ -32,13 +24,12 @@ enum custom_keycodes {
 #define CT_NORM DF(BASE)
 
 #define CT_CTLE CTL_T(KC_ESC)
-#define CT_DTCL TD(TD_LSFT_CAPS)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [BASE] = LAYOUT(QK_GESC, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    SE_PLUS, SE_ACUT, SE_QUOT, SE_SECT,
 		          KC_TAB,  SE_Q,    SE_W,    SE_E,    SE_R,    SE_T,    SE_Y,    SE_U,    SE_I,    SE_O,    SE_P,    SE_ARNG, SE_DIAE, KC_BSPC,
 		          KC_LCTL, SE_A,    SE_S,    SE_D,    SE_F,    SE_G,    SE_H,    SE_J,    SE_K,    SE_L,    SE_ODIA, SE_ADIA, KC_ENT,
-		          CT_DTCL, SE_Z,    SE_X,    SE_C,    SE_V,    SE_B,    SE_N,    SE_M,    SE_COMM, SE_DOT,  SE_MINS, CT_DTCL, CT_HHKB,
+		          KC_LSFT, SE_Z,    SE_X,    SE_C,    SE_V,    SE_B,    SE_N,    SE_M,    SE_COMM, SE_DOT,  SE_MINS, KC_RSFT, CT_HHKB,
 						            KC_LGUI, KC_LALT, CT_FSPC, KC_RALT, CT_LOWR),
 
   [HHKB] = LAYOUT(SE_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_INS,  KC_DEL,

@@ -68,8 +68,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     } else {  // On key release.
       unregister_code(registered_key);
     }
+    return false;
   }
-    break;
 
   case CT_MAKE: {  // Compiles the firmware, and adds the flash command based on keyboard bootloader
     if (!record->event.pressed) {

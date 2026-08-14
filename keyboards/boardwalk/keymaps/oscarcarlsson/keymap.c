@@ -15,6 +15,7 @@
 
 #include QMK_KEYBOARD_H
 #include "keymap_swedish.h"
+#include "oscarcarlsson.h"
 
 // Layer shorthand
 #define _DV 0
@@ -27,15 +28,6 @@
 
 // Left control when held, ESC when tapped
 #define CT_LCES LCTL_T(KC_ESC)
-
-// Note to self: These are the custom keycodes that should be used in
-// the layout below, and these are later used in process_record_user
-// to create our desired tri layer functionality.
-
-// Not sure the FUNCTION and CONFIG keycodes are even needed?
-enum custom_keycodes {
-  CT_JIG = SAFE_RANGE,
-};
 
 // Fillers to make layering more clear
 #define ___T___ KC_TRNS
@@ -62,7 +54,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [_RS] = LAYOUT_monotux(
-    ___T___, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_NUM,  KC_P7,   KC_P8,   KC_P9,   SE_ASTR, KC_INS,  \
+    CT_MAKE, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_NUM,  KC_P7,   KC_P8,   KC_P9,   SE_ASTR, KC_INS,  \
     ___T___, KC_HOME, KC_UP,   KC_END,  KC_PGUP, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_P4,   KC_P5,   KC_P6,   SE_PLUS, ___T___, \
     ___T___, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_P1,   KC_P2,   KC_P3,   SE_MINS, ___T___, \
     ___T___, ___T___, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PERC, KC_COMM, KC_P0,   KC_DOT,  SE_EQL,  ___T___, \
@@ -81,70 +73,4 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 void persistent_default_layer_set(uint16_t default_layer) {
   eeconfig_update_default_layer(default_layer);
   default_layer_set(default_layer);
-}
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (record->event.pressed) {
-    static deferred_token token = INVALID_DEFERRED_TOKEN;
-    static report_mouse_t report = {0};
-
-    if (token) {
-      // If jiggler is currently running, stop when any key is pressed.
-      cancel_deferred_exec(token);
-      token = INVALID_DEFERRED_TOKEN;
-      report = (report_mouse_t){};  // Clear the mouse.
-      host_mouse_send(&report);
-    } else if (keycode == CT_JIG) {
-
-      uint32_t jiggler_callback(uint32_t trigger_time, void* cb_arg) {
-        // Deltas to move in a circle of radius 20 pixels over 32 frames.
-        static const int8_t deltas[32] = {
-          0, -1, -2, -2, -3, -3, -4, -4, -4, -4, -3, -3, -2, -2, -1, 0,
-          0, 1, 2, 2, 3, 3, 4, 4, 4, 4, 3, 3, 2, 2, 1, 0};
-        static uint8_t phase = 0;
-        // Get x delta from table and y delta by rotating a quarter cycle.
-        report.x = deltas[phase];
-        report.y = deltas[(phase + 8) & 31];
-        phase = (phase + 1) & 31;
-        host_mouse_send(&report);
-        return 16;  // Call the callback every 16 ms.
-      }
-
-      token = defer_exec(1, jiggler_callback, NULL);  // Schedule callback.
-    }
-  }
-
-  switch (keycode) {
-  case KC_BSPC: {
-    // https://getreuer.info/posts/keyboards/macros3/index.html
-    static uint16_t registered_key = KC_NO;
-    if (record->event.pressed) {  // On key press.
-      const uint8_t mods = get_mods();
-#ifndef NO_ACTION_ONESHOT
-      uint8_t shift_mods = (mods | get_oneshot_mods()) & MOD_MASK_SHIFT;
-#else
-      uint8_t shift_mods = mods & MOD_MASK_SHIFT;
-#endif  // NO_ACTION_ONESHOT
-      if (shift_mods) {  // At least one shift key is held.
-        registered_key = KC_DEL;
-        // If one shift is held, clear it from the mods. But if both
-        // shifts are held, leave as is to send Shift + Del.
-        if (shift_mods != MOD_MASK_SHIFT) {
-#ifndef NO_ACTION_ONESHOT
-          del_oneshot_mods(MOD_MASK_SHIFT);
-#endif  // NO_ACTION_ONESHOT
-          unregister_mods(MOD_MASK_SHIFT);
-        }
-      } else {
-        registered_key = KC_BSPC;
-      }
-
-      register_code(registered_key);
-      set_mods(mods);
-    } else {  // On key release.
-      unregister_code(registered_key);
-    }
-  } return false;
-  }
-  return true;
 }

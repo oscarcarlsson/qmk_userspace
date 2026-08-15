@@ -1,5 +1,4 @@
-MOUSEKEY_ENABLE = yes       # Mouse keys(+4700)
-EXTRAKEY_ENABLE = yes       # Audio control and System control(+450)
+EXTRAKEY_ENABLE = no       # Audio control and System control(+450)
 NKRO_ENABLE = yes            # Nkey Rollover - if this doesn't work, see here: https://github.com/tmk/tmk_keyboard/wiki/FAQ#nkro-doesnt-work
 DYNAMIC_MACRO_ENABLE = yes
 
@@ -14,7 +13,11 @@ BLUETOOTH_ENABLE = no       # Enable Bluetooth with the Adafruit EZ-Key HID
 RGBLIGHT_ENABLE = no        # Enable WS2812 RGB underlight.
 BOOTMAGIC_ENABLE = no       # Virtual DIP switch configuration(+1000)
 
-CONSOLE_ENABLE = no
+OS_DETECTION_ENABLE = yes
+DEFERRED_EXEC_ENABLE = yes
+MOUSE_ENABLE = yes
+MOUSE_JIGGLER = yes
+TRI_LAYER_ENABLE = yes
 
 # scan rate ~2357 Hz
 DEBOUNCE_TYPE = sym_eager_pk

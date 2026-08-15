@@ -1,5 +1,6 @@
 #include QMK_KEYBOARD_H
 #include "keymap_swedish.h"
+#include "oscarcarlsson.h"
 
 #define _DEFT 0
 #define _NAVI 1
@@ -8,15 +9,6 @@
 
 #define _______ KC_TRNS
 #define XXXXXXX KC_NO
-
-// Each new keycode requires an unique number, the SAFE_RANGE macro
-// helps us with this. These keys are added to our keymaps and handled
-// in process_record_user.
-enum custom_keycodes {
-  DEFT = SAFE_RANGE,
-  SYMB,
-  NAVI
-};
 
 #define KC_LSHD SFT_T(KC_DOT)
 #define KC_RSDT SFT_T(KC_Z)
@@ -41,7 +33,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     { SE_ARNG, SE_ADIA, SE_ODIA, KC_P,    KC_Y,    _______, KC_F,    KC_G,    KC_C,    KC_R,    KC_L    },
     { MT_LGA,  MT_LAO,  MT_LSE,  MT_LCU,  KC_I,    _______, KC_D,    MT_RCH,  MT_RST,  MT_RAN,  MT_RGS  },
     { KC_LSHD, KC_Q,    KC_J,    KC_K,    KC_X,    MT_LCB,  KC_B,    KC_M,    KC_W,    KC_V,    KC_RSDT },
-    { KC_TAB,  KC_COMM, KC_LGUI, NAVI,    NAVI,    MT_LAS,  SYMB,    KC_RGUI, KC_RGMS, KC_RALT, KC_ENT  }
+    { KC_TAB,  KC_COMM, KC_LGUI, TL_LOWR, TL_LOWR, MT_LAS,  TL_UPPR, KC_RGUI, KC_RGMS, KC_RALT, KC_ENT  }
   },
 
   [_NAVI] = {
@@ -65,48 +57,3 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     { QK_BOOT, XXXXXXX, _______, _______, XXXXXXX, _______, XXXXXXX, _______, KC_PSCR, KC_SCRL, KC_PAUS }
   }
 };
-
-#if defined(CONSOLE_ENABLE)
-void keyboard_post_init_user(void) {
-  debug_enable = true;
-}
-#endif
-
-void persistent_default_layer_set(uint16_t default_layer) {
-  eeconfig_update_default_layer(default_layer);
-  default_layer_set(default_layer);
-}
-
-// Return true makes QMK deal with the key as usual, false means that
-// we have the responsibility and enables us to do our magic
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-  case DEFT:
-    if (record->event.pressed) {
-      persistent_default_layer_set(1UL<<_DEFT);
-    }
-    return false;
-    break;
-  case SYMB:
-    if (record->event.pressed) {
-      layer_on(_SYMB);
-      update_tri_layer(_SYMB, _NAVI, _DUAL);
-    } else {
-      layer_off(_SYMB);
-      update_tri_layer(_SYMB, _NAVI, _DUAL);
-    }
-    return false;
-    break;
-  case NAVI:
-    if (record->event.pressed) {
-      layer_on(_NAVI);
-      update_tri_layer(_SYMB, _NAVI, _DUAL);
-    } else {
-      layer_off(_NAVI);
-      update_tri_layer(_SYMB, _NAVI, _DUAL);
-    }
-    return false;
-    break;
-  }
-  return true;
-}

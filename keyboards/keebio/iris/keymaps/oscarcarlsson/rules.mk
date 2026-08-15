@@ -2,10 +2,9 @@ RGBLIGHT_ENABLE = no
 BACKLIGHT_ENABLE = no
 DEFERRED_EXEC_ENABLE = yes
 MOUSE_ENABLE = yes
+MOUSE_JIGGLER = yes
 CONSOLE_ENABLE = no
-
-ifndef QUANTUM_DIR
-	include ../../../../Makefile
-endif
+OS_DETECTION_ENABLE = yes
+TRI_LAYER_ENABLE = yes
 
 DEBOUNCE_TYPE = sym_eager_pk

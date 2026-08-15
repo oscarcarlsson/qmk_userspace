@@ -15,19 +15,11 @@
  */
 #include QMK_KEYBOARD_H
 #include "keymap_swedish.h"
+#include "oscarcarlsson.h"
 
 // Fillers to make layering more clear
 #define ___T___ KC_TRNS
 #define XXXXXXX KC_NO
-
-enum custom_keycodes {
-  DEFAULT = SAFE_RANGE,
-  LOWER,
-  RAISE,
-  DUAL,
-  JIGGLE,
-};
-
 
 // Layer shorthand
 #define _SV 0
@@ -38,8 +30,6 @@ enum custom_keycodes {
 // Magic keys
 #define KC_LSHM SFT_T(SE_MINS) // shift when held, minus when tapped
 #define KC_RSHC SFT_T(KC_COMM) // shift when held, comma when tapped
-
-#define CT_JIGG JIGGLE
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  [_SV] = { /* SVORAK */
@@ -59,7 +49,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  },
 
  [_RS] = { /* LOWERED */
-  { XXXXXXX, DM_PLY1, DM_PLY2, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_7,    KC_8,    KC_9,    SE_ASTR, KC_DEL  },
+  { XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_7,    KC_8,    KC_9,    SE_ASTR, KC_DEL  },
   { ___T___, KC_HOME, KC_UP,   KC_END,  KC_PGUP, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_4,    KC_5,    KC_6,    SE_PLUS, ___T___ },
   { ___T___, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGUP, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_1,    KC_2,    KC_3,    SE_BSLS, XXXXXXX },
   { ___T___, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_DOT,  KC_0,    KC_COMM, SE_EQL,  XXXXXXX },
@@ -67,106 +57,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  },
 
  [_MD] = { /* some media buttons */
-   { DM_RSTP, DM_REC1, DM_REC2, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX },
+   { XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX },
    { XXXXXXX, KC_MPLY, KC_VOLU, KC_MUTE, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX },
    { KC_CAPS, KC_MPRV, KC_VOLD, KC_MNXT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, CT_JIGG },
    { XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX },
    { XXXXXXX, XXXXXXX, ___T___, XXXXXXX, ___T___, ___T___, XXXXXXX, ___T___, XXXXXXX, ___T___, ___T___, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX }
  },
 };
-
-#if defined(OS_DETECTION_ENABLE)
-uint32_t custom_os_settings(uint32_t trigger_time, void *cb_arg) {
-  os_variant_t host = detected_host_os();
-  uint16_t retry_ms = 500;
-
-  if (host == OS_MACOS || host == OS_IOS) {
-    keymap_config.swap_lalt_lgui = true;
-    keymap_config.swap_ralt_rgui = true;
-    retry_ms = 0;
-  }
-
-  return retry_ms;
-}
-
-void keyboard_post_init_user(void) {
-  defer_exec(100, custom_os_settings, NULL);
-}
-#endif
-
-void persistent_default_layer_set(uint16_t default_layer) {
-  eeconfig_update_default_layer(default_layer);
-  default_layer_set(default_layer);
-}
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (record->event.pressed) {
-    static deferred_token token = INVALID_DEFERRED_TOKEN;
-    static report_mouse_t report = {0};
-    if (token) {
-      // If jiggler is currently running, stop when any key is pressed.
-      cancel_deferred_exec(token);
-      token = INVALID_DEFERRED_TOKEN;
-      report = (report_mouse_t){};  // Clear the mouse.
-      host_mouse_send(&report);
-    } else if (keycode == JIGGLE) {
-
-      uint32_t jiggler_callback(uint32_t trigger_time, void* cb_arg) {
-        // Deltas to move in a circle of radius 20 pixels over 32 frames.
-        static const int8_t deltas[32] = {
-          0, -1, -2, -2, -3, -3, -4, -4, -4, -4, -3, -3, -2, -2, -1, 0,
-          0, 1, 2, 2, 3, 3, 4, 4, 4, 4, 3, 3, 2, 2, 1, 0};
-        static uint8_t phase = 0;
-        // Get x delta from table and y delta by rotating a quarter cycle.
-        report.x = deltas[phase];
-        report.y = deltas[(phase + 8) & 31];
-        phase = (phase + 1) & 31;
-        host_mouse_send(&report);
-        return 16;  // Call the callback every 16 ms.
-      }
-
-      token = defer_exec(1, jiggler_callback, NULL);  // Schedule callback.
-    }
-  }
-
-  switch (keycode) {
-  case DEFAULT:
-    if (record->event.pressed) {
-      persistent_default_layer_set(1UL << _SV);
-    }
-    return false;
-    break;
-
-  case KC_BSPC: {
-    // https://getreuer.info/posts/keyboards/macros3/index.html
-    static uint16_t registered_key = KC_NO;
-    if (record->event.pressed) {  // On key press.
-      const uint8_t mods = get_mods();
-#ifndef NO_ACTION_ONESHOT
-      uint8_t shift_mods = (mods | get_oneshot_mods()) & MOD_MASK_SHIFT;
-#else
-      uint8_t shift_mods = mods & MOD_MASK_SHIFT;
-#endif  // NO_ACTION_ONESHOT
-      if (shift_mods) {  // At least one shift key is held.
-        registered_key = KC_DEL;
-        // If one shift is held, clear it from the mods. But if both
-        // shifts are held, leave as is to send Shift + Del.
-        if (shift_mods != MOD_MASK_SHIFT) {
-#ifndef NO_ACTION_ONESHOT
-          del_oneshot_mods(MOD_MASK_SHIFT);
-#endif  // NO_ACTION_ONESHOT
-          unregister_mods(MOD_MASK_SHIFT);
-        }
-      } else {
-        registered_key = KC_BSPC;
-      }
-
-      register_code(registered_key);
-      set_mods(mods);
-    } else {  // On key release.
-      unregister_code(registered_key);
-    }
-  } return false;
-  }
-  return true;
-}

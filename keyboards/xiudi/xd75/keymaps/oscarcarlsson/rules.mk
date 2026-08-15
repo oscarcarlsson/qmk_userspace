@@ -13,14 +13,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-ifndef QUANTUM_DIR
-	include ../../../../Makefile
-endif
+# ifndef QUANTUM_DIR
+#	include ../../../../Makefile
+# endif
 
 BACKLIGHT_ENABLE = no
 TRI_LAYER_ENABLE = yes
-DYNAMIC_MACRO_ENABLE = yes
-OS_DETECTION_ENABLE = no
+DYNAMIC_MACRO_ENABLE = no
+OS_DETECTION_ENABLE = yes
 DEFERRED_EXEC_ENABLE = yes
 CONSOLE_ENABLE = no
 MOUSE_ENABLE = yes
+MOUSE_JIGGLER = yes

@@ -1,34 +1,21 @@
 #include QMK_KEYBOARD_H
 #include "version.h"
-// #include "ergodox_ez.h"
 #include "keymap_swedish.h"
+#include "oscarcarlsson.h"
 
 #define XXXXXXX KC_NO
 
 #define _BASE 0 // default layer
 #define _SYMB 1 // symbols
 #define _NAVI 2 // media keys
-#define _SUPR 12
-
-// I should try to understand QMK better
-enum custom_keycodes {
-  BASE = SAFE_RANGE,
-  SYMB,
-  NAVI,
-  SUPR,
-  REGR,
-  HALS,
-};
+#define _SUPR 3
 
 #define KC_SHMN MT(MOD_LSFT, NO_MINS)
 #define KC_SHCM MT(MOD_RSFT, KC_COMM)
-#define KC_BASE TT(_BASE)
-#define KC_SYMB TT(_SYMB)
-#define KC_NAVI TT(_NAVI)
 #define KC_WSPC GUI_T(KC_SPC)
 
-#define KC_LTNV LT(_NAVI, KC_BSPC)
-#define KC_LTSM LT(_SYMB, KC_SPC)
+#define KC_LTNV LT(TL_UPPR, KC_BSPC)
+#define KC_LTSM LT(TL_LOWR, KC_SPC)
 
 #define KC_LGU1 LGUI(KC_1)
 #define KC_LGU2 LGUI(KC_2)
@@ -49,26 +36,26 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_BASE] = LAYOUT_ergodox_pretty(
         // left hand
-        KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,   KC_5,   KC_SYMB,
+        KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,   KC_5,   TL_LOWR,
         SE_MINS, SE_ARNG, SE_ADIA, SE_ODIA, KC_P,   KC_Y,   SE_SCLN,
         KC_TAB,  KC_A,    KC_O,    KC_E,    KC_U,   KC_I,
         KC_LSFT, SE_DOT,  KC_Q,    KC_J,    KC_K,   KC_X,   KC_TAB,
-        KC_DEL,  KC_RALT, KC_APP,  KC_NAVI, KC_LGUI,
+        KC_DEL,  KC_RALT, KC_APP,  TL_UPPR, KC_LGUI,
 
                  KC_COPY,  KC_PSTE,
                            KC_HOME,
         KC_LTNV, KC_LCTL,  KC_END,
 
         // right hand
-        KC_NAVI,   KC_6,    KC_7,    KC_8,    KC_9,     KC_0,     SE_GRV,
+        TL_UPPR,   KC_6,    KC_7,    KC_8,    KC_9,     KC_0,     SE_GRV,
         SE_SLSH,   KC_F,    KC_G,    KC_C,    KC_R,     KC_L,     KC_COMM,
                    KC_D,    KC_H,    KC_T,    KC_N,     KC_S,     KC_ENTER,
         KC_ENTER,  KC_B,    KC_M,    KC_W,    KC_V,     KC_Z,     KC_RSFT,
-                            KC_RGUI, KC_SYMB, SE_MINS,  SE_MINS,  KC_ESC,
+                            KC_RGUI, TL_LOWR, SE_MINS,  SE_MINS,  KC_ESC,
 
         KC_PGUP, KC_RALT,
         KC_PGDN,
-        KC_NAVI, KC_LALT, KC_LTSM
+        TL_UPPR, KC_LALT, KC_LTSM
                   ),
 
 // SYMBOLS
@@ -95,7 +82,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                 ),
 
 [_NAVI] = LAYOUT_ergodox_pretty(
-       XXXXXXX, HALS,    REGR,    XXXXXXX, XXXXXXX, XXXXXXX, _______,
+       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
        XXXXXXX, KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_VOLU, XXXXXXX,
        XXXXXXX, KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_VOLD,
        XXXXXXX, KC_MSEL, KC_MPLY, KC_MSTP, KC_MPRV, KC_MNXT, XXXXXXX,
@@ -134,50 +121,3 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        _______, _______, _______
                 ),
 };
-
-void persistent_default_layer_set(uint16_t default_layer) {
-  eeconfig_update_default_layer(default_layer);
-  default_layer_set(default_layer);
-}
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-  case BASE:
-    if (record->event.pressed) {
-      persistent_default_layer_set(1UL<<_BASE);
-    }
-    return false;
-    break;
-  case SYMB:
-    if (record->event.pressed) {
-      layer_on(_SYMB);
-      update_tri_layer(_SYMB, _NAVI, _SUPR);
-    } else {
-      layer_off(_SYMB);
-      update_tri_layer(_SYMB, _NAVI, _SUPR);
-    }
-    return false;
-    break;
-  case NAVI:
-    if (record->event.pressed) {
-      layer_on(_NAVI);
-      update_tri_layer(_SYMB, _NAVI, _SUPR);
-    } else {
-      layer_off(_NAVI);
-      update_tri_layer(_SYMB, _NAVI, _SUPR);
-    }
-    return false;
-    break;
-  case HALS:
-    if (record->event.pressed) {
-      SEND_STRING("H'lsningar,\nOscar Carlsson\nLKAB IT applikationsdriften\n");
-    }
-    break;
-  case REGR:
-    if (record->event.pressed) {
-      SEND_STRING("Regards,\nOscar Carlsson\nLKAB IT application operations\n");
-    }
-    break;
-  }
-  return true;
-}

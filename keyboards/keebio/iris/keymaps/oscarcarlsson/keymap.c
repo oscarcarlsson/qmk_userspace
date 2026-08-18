@@ -33,6 +33,9 @@
 #define MT_RAN MT(MOD_LALT, KC_N)
 #define MT_RGS MT(MOD_LGUI, KC_S)
 
+#define CT_UPPR LT(_NAVI, KC_BSPC)
+#define CT_LOWR LT(_LOWR, KC_SPC)
+
 // LCTL/TAB
 #define KC_LCTT LCTL_T(KC_TAB)
 
@@ -40,8 +43,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_DEFT] = LAYOUT(KC_ESC,  SE_1,    SE_2,    SE_3,    SE_4,    SE_5,                      SE_6,    SE_7,    SE_8,    SE_9,     SE_0,    SE_MINS,
                    KC_TAB,  SE_ARNG, SE_ADIA, SE_ODIA, SE_P,    SE_Y,                      SE_F,    SE_G,    SE_C,    SE_R,     SE_L,    SE_DOT,
                    KC_LCTL, MT_LGA,  MT_LAO,  MT_LSE,  MT_LCU,  SE_I,                      SE_D,    MT_RCH,  MT_RST,  MT_RAN,   MT_RGS,  KC_ENT,
-                   KC_LSFT, SE_DOT,  SE_Q,    SE_J,    SE_K,    SE_X,    KC_BSPC, KC_SPC,  SE_B,    SE_M,    SE_W,    SE_V,     SE_Z,    KC_RSFT,
-                                                       KC_LGUI, TL_UPPR, KC_BSPC, KC_SPC,  TL_LOWR, KC_LALT),
+                   KC_SHMN, SE_DOT,  SE_Q,    SE_J,    SE_K,    SE_X,    CT_UPPR, CT_LOWR, SE_B,    SE_M,    SE_W,    SE_V,     SE_Z,    KC_SHCM,
+                                                       KC_LGUI, TL_UPPR, CT_UPPR, CT_LOWR, TL_LOWR, KC_LALT),
 
   [_LOWR] = LAYOUT(KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                     KC_F7,   KC_F8,   KC_F9,    KC_F10,  KC_F11,  KC_F12,
                    CT_GCOM, SE_LCBR, SE_RCBR, SE_LBRC, SE_RBRC, SE_DLR,                    SE_DQUO, SE_QUES, SE_AMPR,  SE_LABK, SE_RABK, CT_GDOT,
@@ -61,3 +64,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                    _______, XXXXXXX, XXXXXXX, KC_MUTE, XXXXXXX, XXXXXXX, _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
                                                        _______, _______, _______, _______, _______, _______)
 };
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+    return update_tri_layer_state(state, _LOWR, _NAVI, _DUAL);
+}

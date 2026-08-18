@@ -38,7 +38,7 @@
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_DEFT] = LAYOUT(KC_ESC,  SE_1,    SE_2,    SE_3,    SE_4,    SE_5,                      SE_6,    SE_7,    SE_8,    SE_9,     SE_0,    SE_MINS,
-                   SE_COMM, SE_ARNG, SE_ADIA, SE_ODIA, SE_P,    SE_Y,                      SE_F,    SE_G,    SE_C,    SE_R,     SE_L,    SE_DOT,
+                   KC_TAB,  SE_ARNG, SE_ADIA, SE_ODIA, SE_P,    SE_Y,                      SE_F,    SE_G,    SE_C,    SE_R,     SE_L,    SE_DOT,
                    KC_LCTL, MT_LGA,  MT_LAO,  MT_LSE,  MT_LCU,  SE_I,                      SE_D,    MT_RCH,  MT_RST,  MT_RAN,   MT_RGS,  KC_ENT,
                    KC_LSFT, SE_DOT,  SE_Q,    SE_J,    SE_K,    SE_X,    KC_BSPC, KC_SPC,  SE_B,    SE_M,    SE_W,    SE_V,     SE_Z,    KC_RSFT,
                                                        KC_LGUI, TL_UPPR, KC_BSPC, KC_SPC,  TL_LOWR, KC_LALT),

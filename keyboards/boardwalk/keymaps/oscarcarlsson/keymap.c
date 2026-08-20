@@ -36,11 +36,16 @@
 #define CT_LW QK_TRI_LAYER_LOWER
 #define CT_RS QK_TRI_LAYER_UPPER
 
+#define CT_HLWM LALT(LCTL(H))
+#define CT_JLWM LALT(LCTL(J))
+#define CT_KLWM LALT(LCTL(K))
+#define CT_LLWM LALT(LCTL(L))
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_DV] = LAYOUT_monotux(
     KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    CT_CAD,  CT_MEL,  KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    SE_MINS, \
     KC_TAB,  SE_ARNG, SE_ADIA, SE_ODIA, KC_P,    KC_Y,    KC_INS,  KC_DEL,  KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_COMM, \
-    CT_LCES, KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_HOME, KC_PGUP, KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_ENT,  \
+    KC_LCTL, KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_HOME, KC_PGUP, KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_ENT,  \
     KC_LSFT, KC_DOT,  KC_Q,    KC_J,    KC_K,    KC_X,    KC_END,  KC_PGDN, KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    KC_RSFT, \
     XXXXXXX, KC_LGUI, KC_LALT, KC_LALT, CT_RS,      KC_BSPC,           KC_SPC,       CT_LW,   KC_LALT, KC_RALT, KC_RGUI, XXXXXXX  \
   ),
@@ -62,9 +67,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [_FN] = LAYOUT_monotux(
-    QK_BOOT, UG_TOGG, UG_NEXT, UG_HUEU, UG_SATU, UG_VALU, _______, _______, _______, _______, _______, _______, _______, CT_JIGG,  \
+    QK_BOOT, UG_TOGG, UG_NEXT, UG_HUEU, UG_SATU, UG_VALU, _______, _______, _______, _______, _______, _______, _______, CT_JIGG, \
     _______, KC_MPLY, KC_VOLU, KC_MSTP, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
-    _______, KC_MPRV, KC_VOLD, KC_MNXT, _______, _______, _______, _______, _______, _______, _______, _______, _______, CT_CAD,  \
+    _______, KC_MPRV, KC_VOLD, KC_MNXT, _______, _______, _______, _______, _______, CT_HLWM, CT_JLWM, CT_KLWM, CT_LLWM, CT_CAD,  \
     _______, _______, KC_MUTE, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
     _______, _______, _______, _______, _______,       _______,       _______,       _______, _______, _______, KC_APP,  _______
   )

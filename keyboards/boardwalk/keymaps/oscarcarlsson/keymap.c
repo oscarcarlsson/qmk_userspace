@@ -36,10 +36,10 @@
 #define CT_LW QK_TRI_LAYER_LOWER
 #define CT_RS QK_TRI_LAYER_UPPER
 
-#define CT_HLWM LALT(LCTL(H))
-#define CT_JLWM LALT(LCTL(J))
-#define CT_KLWM LALT(LCTL(K))
-#define CT_LLWM LALT(LCTL(L))
+#define CT_HLWM LALT(LCTL(KC_H))
+#define CT_JLWM LALT(LCTL(KC_J))
+#define CT_KLWM LALT(LCTL(KC_K))
+#define CT_LLWM LALT(LCTL(KC_L))
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_DV] = LAYOUT_monotux(
@@ -69,7 +69,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_FN] = LAYOUT_monotux(
     QK_BOOT, UG_TOGG, UG_NEXT, UG_HUEU, UG_SATU, UG_VALU, _______, _______, _______, _______, _______, _______, _______, CT_JIGG, \
     _______, KC_MPLY, KC_VOLU, KC_MSTP, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
-    _______, KC_MPRV, KC_VOLD, KC_MNXT, _______, _______, _______, _______, _______, CT_HLWM, CT_JLWM, CT_KLWM, CT_LLWM, CT_CAD,  \
+    _______, KC_MPRV, KC_VOLD, KC_MNXT, _______, _______, _______, _______, _______, CT_HLWM, CT_JLWM, CT_KLWM, CT_LLWM, CT_MAKE, \
     _______, _______, KC_MUTE, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
     _______, _______, _______, _______, _______,       _______,       _______,       _______, _______, _______, KC_APP,  _______
   )
